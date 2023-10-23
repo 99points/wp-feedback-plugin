@@ -63,8 +63,8 @@ class WP_Feedback {
                 }
 
                 $voting_markup .= '<div class="wp-feedback-buttons wp-feedback-result"><h4>THANK YOU FOR VOUR FEEDBACK.</h4>';
-                $voting_markup .= '<div class="wp-feedback-button '.esc_attr($cssYes).'"><span>☻</span><em>'.$result['yes_percentage'].'</em></div>';
-                $voting_markup .= '<div class="wp-feedback-button '.esc_attr($cssNo).'"><span>⚉</span><em>'.$result['no_percentage'].'</em></div>';
+                $voting_markup .= '<div class="wp-feedback-button '.esc_attr($cssYes).'"><span>&#9787;</span><em>'.$result['yes_percentage'].'</em></div>';
+                $voting_markup .= '<div class="wp-feedback-button '.esc_attr($cssNo).'"><span>&#9865;</span><em>'.$result['no_percentage'].'</em></div>';
             }
 
             $voting_markup .= '</div>';
@@ -111,7 +111,7 @@ class WP_Feedback {
         }
         else{
             $vote = get_post_meta($post_id, 'wp_feedback_user_voted', true);
-            if(isset($vote))
+            if(isset($vote) && $vote != "")
                 return true;
             else
                 return false;
