@@ -109,7 +109,13 @@ class WP_Feedback {
         if (isset($_COOKIE[$cookie_name])) {
             return true;
         }
-        return false;
+        else{
+            $vote = get_post_meta($post_id, 'wp_feedback_user_voted', true);
+            if(isset($vote))
+                return true;
+            else
+                return false;
+        }
     }
     
     /**
