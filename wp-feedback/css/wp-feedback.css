@@ -18,8 +18,10 @@
     font-size: 15px;
     position: relative;
     font-weight: bold;
-    width: 86px;
+    width: 47px;
     display: block;
+    box-sizing: content-box;
+    cursor: pointer;
 }
 
 .wp-feedback-buttons .wp-feedback-button:hover{
@@ -35,11 +37,12 @@
     margin-right: 6px;
 }
 
-.wp-feedback-buttons .wp-feedback-button:nth-child(3) span{ font-size: 28px !important; top:-3px;}
+.wp-feedback-buttons .wp-feedback-button:nth-child(3) span{    top: -4px;
+    font-size: 28px !important;}
 
 .wp-feedback-buttons .wp-feedback-button em{ font-style: normal;}
 
-.wp-feedback-buttons h4{ font-size: 15px; padding: 10px 20px 0px 0; width: 280px;    margin: 0;
+.wp-feedback-buttons h4{ font-size: 15px; padding: 10px 20px 0px 0; width: 300px;    margin: 0;
     margin-top: 8px;
 }
 
