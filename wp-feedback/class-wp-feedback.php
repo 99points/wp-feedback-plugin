@@ -38,13 +38,12 @@ class WP_Feedback {
 
             // Get the current voting data for this post (you'll need to implement this part)
             $voting_data = $this->get_voting_data($post_id);
-
+            $cssYes = $cssNo = '';
             // Check if the user has already voted (you'll need to implement this part)
             $has_voted = $this->user_has_voted($post_id);
-    
+            
             // HTML markup for the voting feature
             $voting_markup = '<div class="wp-feedback-container">';
-            
 
             // Check if the user has already voted
             if (!$has_voted) {
@@ -54,9 +53,18 @@ class WP_Feedback {
             } 
             else {
                 $result = $this->get_voting_percent($voting_data);
+
+                $vote = get_post_meta($post_id, 'wp_feedback_user_voted', true);
+
+                if ($vote === 'yes') {
+                    $cssYes = 'wp_feedback_voted';
+                } elseif ($vote === 'no') {
+                    $cssNo = 'wp_feedback_voted';
+                }
+
                 $voting_markup .= '<div class="wp-feedback-buttons wp-feedback-result"><h4>THANK YOU FOR VOUR FEEDBACK.</h4>';
-                $voting_markup .= '<div class="wp-feedback-button"><span>☻</span><em>'.$result['yes_percentage'].'</em></div>';
-                $voting_markup .= '<div class="wp-feedback-button"><span>⚉</span><em>'.$result['no_percentage'].'</em></div>';
+                $voting_markup .= '<div class="wp-feedback-button '.esc_attr($cssYes).'"><span>☻</span><em>'.$result['yes_percentage'].'</em></div>';
+                $voting_markup .= '<div class="wp-feedback-button '.esc_attr($cssNo).'"><span>⚉</span><em>'.$result['no_percentage'].'</em></div>';
             }
 
             $voting_markup .= '</div>';
@@ -120,25 +128,30 @@ class WP_Feedback {
             } else {
                 // Record the vote
                 $voting_data = $this->get_voting_data($post_id);
-    
+                $cssYes = $cssNo = '';
                 if ($vote === 'yes') {
                     $voting_data['yes']++;
+                    $cssYes = 'wp_feedback_voted';
                 } elseif ($vote === 'no') {
                     $voting_data['no']++;
+                    $cssNo = 'wp_feedback_voted';
                 }
                 // Update the voting data in your database or storage method
                 // For this example, we'll use post meta
                 update_post_meta($post_id, 'wp_feedback_voting_data', $voting_data);
                 
+                // Save the user's choice (Yes or No) in a user-specific option
+                update_post_meta($post_id, 'wp_feedback_user_voted', $vote);
+
                 $result = $this->get_voting_percent($voting_data);
 
                 // Set a cookie to mark that the user has voted
                 $cookie_name = 'wp_feedback_vote_' . $post_id;
                 setcookie($cookie_name, 'voted', time() + 31536000, COOKIEPATH, COOKIE_DOMAIN);
-                
+
                 $response = '<h4>THANK YOU FOR VOUR FEEDBACK.</h4>';
-                $response .= '<div class="wp-feedback-button"><span>☻</span><em>'.$result['yes_percentage'].'</em></div>';
-                $response .= '<div class="wp-feedback-button"><span>⚉</span><em>'.$result['no_percentage'].'</em></div>';
+                $response .= '<div class="wp-feedback-button '.esc_attr($cssYes).'"><span>☻</span><em>'.$result['yes_percentage'].'</em></div>';
+                $response .= '<div class="wp-feedback-button '.esc_attr($cssNo).'"><span>⚉</span><em>'.$result['no_percentage'].'</em></div>';
 
                 echo json_encode(array('success' => 'Vote recorded.', 'response' => $response));
             }
