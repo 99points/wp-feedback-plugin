@@ -40,12 +40,12 @@
 
 .wp-feedback-buttons h4{ font-size: 15px; padding: 10px 20px 0px 0; width: 280px;}
 
-.wp-feedback-buttons.wp-feedback-result .wp-feedback-button{    
+.wp-feedback-buttons.wp-feedback-result .wp-feedback-button.wp_feedback_voted{    
     border: solid 2px #075eff !important;
     color: #075eff !important;
 }
 
-.wp-feedback-buttons.wp-feedback-result .wp-feedback-button em{color: #333 !important;}
+.wp-feedback-buttons.wp-feedback-result .wp-feedback-button.wp_feedback_voted em{color: #333 !important;}
 
 .wp-feedback-button.loading {
     pointer-events: none; /* Disable clicks on the button while loading */
